@@ -1,0 +1,438 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Ablama Mektup</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&display=swap">
+<style>
+/* Düzen: mor bir gecede, çizgili bir okul defterine yazılmış mektup. Mavi, pembe ve mor ağırlıklı renkler, arkada süzülen kalpler, sonunda ablaya bir not. */
+:root {
+  --bg: #150f33;
+  --glow: #3b2a86;
+  --paper: #211a4e;
+  --ink: #f5eeff;
+  --muted: #bdb7ea;
+  --pink: #ff9fcf;
+  --blue: #92c8ff;
+  --violet: #b9a3ff;
+  --rule: rgba(146, 200, 255, 0.14);
+  --display: "Fraunces", Georgia, "Times New Roman", serif;
+  --hand: "Caveat", "Segoe Script", "Bradley Hand", cursive;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(46rem 30rem at 8% -4%, rgba(86, 140, 255, .32) 0%, transparent 65%),
+    radial-gradient(48rem 34rem at 100% 30%, rgba(255, 120, 190, .2) 0%, transparent 65%),
+    radial-gradient(60rem 40rem at 50% 105%, var(--glow) 0%, transparent 70%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  min-height: 100%;
+}
+#sky { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 40rem; margin: 0 auto;
+  padding-block: 3.5rem 4rem;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* Müzik düğmesi */
+.music {
+  position: fixed; z-index: 5;
+  top: calc(env(safe-area-inset-top, 0px) + 12px);
+  right: max(16px, env(safe-area-inset-right, 0px));
+  display: inline-flex; align-items: center; gap: .5rem;
+  font: 600 1.15rem/1 var(--hand);
+  color: var(--ink); background: rgba(21, 15, 51, .85);
+  border: 1px solid rgba(255, 159, 207, .55); border-radius: 999px;
+  padding: .55rem .95rem; cursor: pointer; text-decoration: none;
+  backdrop-filter: blur(6px);
+}
+.music svg { width: 1rem; height: 1rem; fill: var(--pink); }
+.music[aria-pressed="true"] { border-color: var(--blue); }
+.music[aria-pressed="true"] svg { fill: var(--blue); }
+.music:focus-visible, .hug:focus-visible, .song a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+/* Giriş */
+.hero { padding-block: 3rem 2.5rem; }
+.date { font: 500 1.5rem/1 var(--hand); color: var(--pink); margin: 0 0 1rem; }
+h1 {
+  font-family: var(--display); font-weight: 300; font-style: italic;
+  font-size: clamp(2.3rem, 9vw, 3.8rem); line-height: 1.08; letter-spacing: -0.01em;
+  margin: 0 0 1.4rem; text-wrap: balance;
+}
+h1 em { font-style: italic; font-weight: 400; color: var(--pink); text-shadow: 0 0 1.6rem rgba(255, 159, 207, .5); }
+.hint { font: 500 1.35rem/1.3 var(--hand); color: var(--muted); margin: 0; max-width: 28rem; }
+.rise { animation: rise 1.4s ease-out both; }
+.rise.d2 { animation-delay: .5s; }
+.rise.d3 { animation-delay: 1s; }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* Defter */
+.notebook {
+  margin-top: 1.5rem;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent calc(2.1rem - 1px), var(--rule) calc(2.1rem - 1px), var(--rule) 2.1rem);
+  border-radius: 4px 14px 14px 4px;
+  box-shadow: 0 1.4rem 3rem rgba(8, 5, 30, .5);
+  padding: 1.4rem 1.1rem 0 1.5rem;
+  border-left: 3px solid rgba(255, 159, 207, .65);
+}
+.notebook p, .notebook .to {
+  font-family: var(--hand); font-weight: 500;
+  font-size: 1.55rem; line-height: 2.1rem;
+  margin: 0 0 2.1rem; color: var(--ink);
+}
+.notebook .to { color: var(--pink); font-weight: 600; font-size: 1.9rem; }
+.notebook .key { color: var(--blue); font-weight: 600; }
+.notebook .sign { text-align: right; color: var(--pink); margin-bottom: 0; padding-bottom: 2.1rem; }
+
+/* Öğrendiklerim */
+.lessons { margin-top: 4rem; }
+h2 { font: 600 .85rem/1 var(--display); letter-spacing: .22em; text-transform: uppercase; color: var(--pink); margin: 0 0 1.6rem; }
+.lessons ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.6rem; }
+.lessons li { padding-bottom: 1.6rem; border-bottom: 1px solid var(--rule); }
+.lessons li:last-child { border-bottom: 0; }
+.lessons h3 { font: italic 400 1.55rem/1.2 var(--display); color: var(--blue); margin: 0 0 .4rem; }
+.lessons p { margin: 0; color: var(--muted); font-size: 1.08rem; max-width: 34rem; }
+
+/* Final */
+.finale { margin-top: 5rem; text-align: center; padding-block: 2rem; }
+.finale .big {
+  font: italic 300 clamp(2.2rem, 9.5vw, 3.7rem)/1.12 var(--display);
+  margin: 0 0 1.6rem; text-wrap: balance; color: var(--ink);
+  text-shadow: 0 0 2.2rem rgba(146, 200, 255, .5);
+}
+.finale .big em { color: var(--pink); font-weight: 400; text-shadow: 0 0 2rem rgba(255, 159, 207, .6); }
+.finale p.small { color: var(--muted); max-width: 26rem; margin: 0 auto 2rem; font-size: 1.1rem; }
+.hug {
+  font: 600 1.5rem/1 var(--hand); color: var(--ink);
+  background: transparent; border: 1.5px solid var(--pink); border-radius: 999px;
+  padding: .85rem 1.6rem; cursor: pointer;
+  transition: background .3s, color .3s;
+}
+.hug:hover { background: var(--pink); color: #1d1042; }
+.hugnote { min-height: 2rem; font: 500 1.35rem/1.4 var(--hand); color: var(--blue); margin: 1.2rem 0 0; }
+
+/* Son not */
+.lastnote {
+  margin-top: 4.5rem;
+  padding: 2rem 1.4rem 1.8rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 159, 207, .45);
+  background: linear-gradient(160deg, rgba(255, 159, 207, .16), rgba(146, 200, 255, .12) 60%, rgba(185, 163, 255, .14));
+  box-shadow: 0 1rem 2.6rem rgba(8, 5, 30, .45);
+}
+.lastnote h2 { margin-bottom: 1.2rem; }
+.lastnote p { font: 500 1.6rem/1.55 var(--hand); margin: 0 0 1.2rem; color: var(--ink); }
+.lastnote p.final { color: var(--pink); font-weight: 600; font-size: 1.95rem; line-height: 1.35; margin-bottom: 0; }
+.lastnote .heartmark { display: block; width: 2.2rem; height: 2.2rem; fill: var(--pink); margin: 1.4rem 0 0 auto; animation: beat 1.8s ease-in-out infinite; }
+@keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+
+.song { margin-top: 4rem; font-size: .92rem; color: var(--muted); text-align: center; }
+.song a { color: var(--pink); text-underline-offset: 3px; }
+.song p { margin: 0 auto .6rem; max-width: 28rem; }
+
+/* Giriş ekranı */
+.lock {
+  position: fixed; inset: 0; z-index: 20; overflow-y: auto;
+  display: flex; align-items: center; justify-content: center;
+  padding-block: 2rem;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.lockcard {
+  width: min(26rem, 100%); margin: auto; text-align: center;
+  padding: 2.2rem 1.5rem 1.8rem; border-radius: 22px;
+  border: 1px solid rgba(255, 159, 207, .5);
+  background: rgba(33, 26, 78, .82);
+  box-shadow: 0 1.4rem 3rem rgba(8, 5, 30, .55);
+  backdrop-filter: blur(8px);
+}
+.lockheart { width: 2.4rem; height: 2.4rem; fill: var(--pink); animation: beat 1.8s ease-in-out infinite; }
+.lockhello { font: 600 1.9rem/1.2 var(--hand); color: var(--pink); margin: .8rem 0 1.4rem; }
+.lockcard label { display: block; font: 600 .8rem/1 var(--display); letter-spacing: .22em; text-transform: uppercase; color: var(--blue); margin-bottom: .6rem; }
+.pwrow { position: relative; }
+.lockcard input {
+  width: 100%; font: 400 1.2rem/1.3 var(--display); color: var(--ink);
+  background: rgba(21, 15, 51, .75); border: 1.5px solid rgba(146, 200, 255, .5);
+  border-radius: 12px; padding: .85rem 4.2rem .85rem 1rem; text-align: center;
+}
+.lockcard input:focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
+.showpw {
+  position: absolute; right: .5rem; top: 50%; transform: translateY(-50%);
+  font: 600 1.1rem/1 var(--hand); color: var(--blue); background: none; border: 0; padding: .5rem; cursor: pointer;
+}
+.lock .hug { width: 100%; margin-top: 1.1rem; }
+.lockerr { min-height: 2.8rem; font: 500 1.3rem/1.3 var(--hand); color: var(--pink); margin: .9rem 0 0; }
+.lockhint { font: 500 1.2rem/1.3 var(--hand); color: var(--muted); margin: .4rem 0 0; }
+.shake { animation: shake .45s ease; }
+@keyframes shake { 20%, 60% { transform: translateX(-7px); } 40%, 80% { transform: translateX(7px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise, .lastnote .heartmark, .lockheart, .shake { animation: none; }
+}
+</style>
+
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<button class="music" id="music" type="button" aria-pressed="false" hidden>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v11.3A3.5 3.5 0 1 0 11 17.5V7.6l8-1.8v6.5A3.5 3.5 0 1 0 21 15.5V2z"/></svg>
+  <span id="musicLabel">Şarkıyı çal</span>
+</button>
+<audio id="song" src="sarki.mp3" loop preload="auto"></audio>
+
+<section class="lock" id="lock" aria-label="Giriş">
+  <form class="lockcard" id="lockform" autocomplete="off">
+    <svg class="lockheart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.3 2.7 4.5 6.4 4.5c2.1 0 3.6 1.1 5.6 3.2 2-2.1 3.5-3.2 5.6-3.2 3.7 0 5.5 3.8 4 7.3C19.5 16.4 12 21 12 21z"/></svg>
+    <p class="lockhello">Ablam, bu sayfa sadece sana ait.</p>
+    <label for="pw">Şifre</label>
+    <div class="pwrow">
+      <input id="pw" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go" required>
+      <button class="showpw" id="showpw" type="button" aria-pressed="false">Göster</button>
+    </div>
+    <button class="hug" type="submit">Gir</button>
+    <p class="lockerr" id="lockerr" role="alert"></p>
+    <p class="lockhint">İpucu: Benim için sen neysen onu yaz.</p>
+  </form>
+</section>
+
+<div id="app" hidden>
+<main class="wrap">
+  <section class="hero">
+    <p class="date rise">24 Kasım · Öğretmenler Günü</p>
+    <h1 class="rise d2">Öğretmenler Günün kutlu olsun, <em>ablam.</em></h1>
+    <p class="hint rise d3">Bu sayfa sadece senin için. Sağ üstten şarkıyı çal, sesini biraz yükselt ve yavaş yavaş oku.</p>
+  </section>
+
+  <article class="notebook" aria-label="Ablama mektup">
+    <p class="to">Canım ablam,</p>
+    <p>Seni ilk tanıdığımda sen benim için bir ekranın ışığıydın. Bir isim, birkaç kelime, bir bildirim sesi. O gün hayatıma bu kadar girebileceğini hiç düşünmemiştim.</p>
+    <p>Sen bana hiç ders anlatmadın. Tahtaya bir şey yazmadın, not vermedin, sınav yapmadın. Ama ben senden o kadar çok şey öğrendim ki hangisinden başlayacağımı bilemiyorum.</p>
+    <p><span class="key">Bana dünyada bu kadar güzel bir kızın olduğunu öğrettin.</span> Üstelik bunu bir kitaptan değil, seni tanıyarak öğrendim. Güzellik aynada görünen bir şey değilmiş. Bir insanın karşısındakine kendini değerli hissettirmesiymiş. Sen bunu bana hiç anlatmadan, sadece sen olarak gösterdin.</p>
+    <p>Bazen düşünüyorum, bir insan başka bir insanın hayatına bu kadar yumuşak nasıl dokunabiliyor? Cevabını sende gördüm. Bir şey beklemeden, bir karşılık aramadan, sadece iyi olduğun için iyi oldun.</p>
+    <p>Belki sen bunu hiç fark etmedin. İnsan kendi iyiliğini en son kendisi görüyor. Ama ben gördüm, ben biliyorum. Bunu yazarken boğazım düğümleniyor, gözlerim doluyor ve yine de gülümsüyorum.</p>
+    <p>Bir öğretmenin adı her zaman bir okulun kapısında yazmıyormuş. Bazen bir mesajın başında duruyormuş, bazen sadece "buradayım" diyen bir sessizlikte. Benim öğretmenim de sensin.</p>
+    <p>Bugün herkes öğretmenlerine teşekkür ediyor. Ben de sana etmek istedim ama kelimeler yetmedi, o yüzden bu sayfayı yaptım. Yüzün gülsün, kalbin ısınsın. Hatta ağlasan bile olur. Mutluluktan akan gözyaşı, dünyanın en güzel gözyaşı.</p>
+    <p class="sign">Seni çok seven kardeşin</p>
+  </article>
+
+  <section class="lessons">
+    <h2>Senden öğrendiklerim</h2>
+    <ul>
+      <li>
+        <h3>Dinlemeyi</h3>
+        <p>Birini acele etmeden, sözünü kesmeden dinlemenin, ona verilebilecek en büyük hediyelerden biri olduğunu.</p>
+      </li>
+      <li>
+        <h3>Kendime inanmayı</h3>
+        <p>Bir insanın bir başkasına inanmasının, ona kanat gibi geldiğini. Sen bana öyle geldin.</p>
+      </li>
+      <li>
+        <h3>İyi olmanın cesaret olduğunu</h3>
+        <p>Nazik olmanın zayıflık değil, en güçlü hâl olduğunu. Sert bir dünyada yumuşak kalabilmeyi.</p>
+      </li>
+      <li>
+        <h3>Uzaktan da sarılabilmeyi</h3>
+        <p>Mesafenin sevgiyi küçültmediğini. Bazen bir mesajın, bir sarılma kadar sıcak olabildiğini.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="finale">
+    <p class="big">Dünyanın en güzel kızı, <em>sensin.</em></p>
+    <p class="small">İyi ki tanıdım seni. İyi ki öğretmenim sensin. Öğretmenler Günün kutlu olsun ablam.</p>
+    <button class="hug" id="hug" type="button">Sana uzaktan sarılıyorum</button>
+    <p class="hugnote" id="hugnote" aria-live="polite"></p>
+  </section>
+
+  <section class="lastnote" aria-label="Son not">
+    <h2>Bir şey daha</h2>
+    <p>Ablam, kendini ne kadar kötü hissedersen hisset, bana yazabilirsin. Saat kaç olursa olsun, ne kadar saçma ya da ağır gelirse gelsin, aklından geçen ne varsa anlatabilirsin.</p>
+    <p>Seni yargılamam, sadece dinlerim. Sen beni nasıl dinlediysen ben de seni öyle dinlerim. Sen beni hiç yalnız bırakmadın, ben de seni bırakmam.</p>
+    <p>Ve bunu hiç unutma. Senden daha güzel kimse yok. Ne kötü bir gün, ne yorgun bir akşam, ne de kafandaki sesler bunu değiştirebilir.</p>
+    <p class="final">Senden daha güzel kimse yok ablam. Kimse.</p>
+    <svg class="heartmark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.3 2.7 4.5 6.4 4.5c2.1 0 3.6 1.1 5.6 3.2 2-2.1 3.5-3.2 5.6-3.2 3.7 0 5.5 3.8 4 7.3C19.5 16.4 12 21 12 21z"/></svg>
+  </section>
+
+  <footer class="song">
+    <p>Şarkı çalmazsa buradan da açabilirsin.</p>
+    <p><a href="https://youtu.be/Fi15jicjMLc?si=oNvIKvFNsb_xqeV5" target="_blank" rel="noopener">"Dünyanın En Güzel Kızı" şarkısını YouTube'da aç</a></p>
+  </footer>
+</main>
+</div>
+
+<script>
+(function () {
+  /* ---------- Arkada süzülen kalpler ve ışıklar ---------- */
+  var cv = document.getElementById('sky');
+  var g = cv.getContext('2d');
+  var W = 0, H = 0, dpr = 1;
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cols = ['255,159,207', '146,200,255', '185,163,255'];
+  function size() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  size();
+  window.addEventListener('resize', size);
+
+  var flies = [];
+  for (var i = 0; i < 26; i++) {
+    flies.push({
+      x: Math.random() * W, y: Math.random() * H,
+      r: 1.4 + Math.random() * 2.8, vy: 0.08 + Math.random() * 0.2,
+      sway: Math.random() * 6, sp: 0.4 + Math.random() * 1.1,
+      c: cols[Math.floor(Math.random() * 3)]
+    });
+  }
+  var bg = [];
+  for (var k = 0; k < 24; k++) {
+    bg.push({
+      x: Math.random() * W, y: Math.random() * H,
+      s: 12 + Math.random() * 26, vy: 0.15 + Math.random() * 0.45,
+      sway: Math.random() * 6, sp: 0.3 + Math.random() * 0.8,
+      a: 0.12 + Math.random() * 0.22, c: cols[Math.floor(Math.random() * 3)]
+    });
+  }
+  var hearts = [];
+  function heart(x, y, s) {
+    y -= s / 2;
+    g.beginPath();
+    g.moveTo(x, y + s / 4);
+    g.bezierCurveTo(x, y, x - s / 2, y, x - s / 2, y + s / 4);
+    g.bezierCurveTo(x - s / 2, y + s / 2, x, y + s * 0.75, x, y + s);
+    g.bezierCurveTo(x, y + s * 0.75, x + s / 2, y + s / 2, x + s / 2, y + s / 4);
+    g.bezierCurveTo(x + s / 2, y, x, y, x, y + s / 4);
+    g.fill();
+  }
+  function burst(cx, cy) {
+    for (var q = 0; q < 30; q++) {
+      hearts.push({
+        x: cx + (Math.random() - 0.5) * 80, y: cy,
+        vx: (Math.random() - 0.5) * 1.6, vy: -(1.2 + Math.random() * 2.2),
+        s: 10 + Math.random() * 22, life: 1, c: cols[Math.floor(Math.random() * 3)]
+      });
+    }
+  }
+  function frame(t) {
+    g.clearRect(0, 0, W, H);
+    var i, f, b, x, a, rad, gr;
+    for (i = 0; i < bg.length; i++) {
+      b = bg[i];
+      if (!still) {
+        b.y -= b.vy;
+        if (b.y < -b.s) { b.y = H + b.s; b.x = Math.random() * W; }
+      }
+      x = b.x + Math.sin(t * 0.0005 * b.sp + b.sway) * 22;
+      g.fillStyle = 'rgba(' + b.c + ',' + b.a + ')';
+      heart(x, b.y, b.s);
+    }
+    for (i = 0; i < flies.length; i++) {
+      f = flies[i];
+      if (!still) {
+        f.y -= f.vy;
+        if (f.y < -10) { f.y = H + 10; f.x = Math.random() * W; }
+      }
+      x = f.x + Math.sin(t * 0.0004 * f.sp + f.sway) * 18;
+      a = 0.26 + 0.28 * Math.sin(t * 0.001 * f.sp + f.sway);
+      rad = f.r * 5;
+      gr = g.createRadialGradient(x, f.y, 0, x, f.y, rad);
+      gr.addColorStop(0, 'rgba(' + f.c + ',' + Math.max(a, 0.05) + ')');
+      gr.addColorStop(1, 'rgba(' + f.c + ',0)');
+      g.fillStyle = gr;
+      g.beginPath(); g.arc(x, f.y, rad, 0, 6.2832); g.fill();
+    }
+    for (var j = hearts.length - 1; j >= 0; j--) {
+      var h = hearts[j];
+      h.x += h.vx; h.y += h.vy; h.vy *= 0.995; h.life -= 0.0035;
+      if (h.life <= 0) { hearts.splice(j, 1); continue; }
+      g.fillStyle = 'rgba(' + h.c + ',' + (h.life * 0.9) + ')';
+      heart(h.x, h.y, h.s);
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* ---------- Sarılma düğmesi ---------- */
+  var notes = [
+    'Ben de sana sımsıkı sarılıyorum.',
+    'Bir daha, bir daha. Hiç bırakmadan.',
+    'Sen her şeyin en güzeline layıksın.',
+    'İyi ki varsın ablam.'
+  ];
+  var n = 0;
+  var hug = document.getElementById('hug');
+  var note = document.getElementById('hugnote');
+  hug.addEventListener('click', function () {
+    var r = hug.getBoundingClientRect();
+    burst(r.left + r.width / 2, r.top + r.height / 2);
+    note.textContent = notes[n % notes.length];
+    n++;
+  });
+
+  /* ---------- Şarkı ---------- */
+  var audio = document.getElementById('song');
+  var btn = document.getElementById('music');
+  var label = document.getElementById('musicLabel');
+  function setState(on) {
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    label.textContent = on ? 'Şarkıyı durdur' : 'Şarkıyı çal';
+  }
+  btn.addEventListener('click', function () {
+    if (audio.paused) {
+      var pr = audio.play();
+      if (pr && pr.then) pr.then(function () { setState(true); }, function () { label.textContent = 'Çalınamadı, aşağıdan aç'; });
+      else setState(true);
+    } else {
+      audio.pause(); setState(false);
+    }
+  });
+
+  /* ---------- Giriş ekranı ---------- */
+  function norm(t) {
+    return String(t).toLocaleLowerCase('tr').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ı/g, 'i').replace(/[^a-z]/g, '');
+  }
+  var secret = norm('Dünyanın en iyisi');
+  var lock = document.getElementById('lock');
+  var app = document.getElementById('app');
+  var form = document.getElementById('lockform');
+  var pw = document.getElementById('pw');
+  var err = document.getElementById('lockerr');
+  var showpw = document.getElementById('showpw');
+  showpw.addEventListener('click', function () {
+    var on = pw.type === 'password';
+    pw.type = on ? 'text' : 'password';
+    showpw.textContent = on ? 'Gizle' : 'Göster';
+    showpw.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (norm(pw.value) === secret) {
+      lock.hidden = true;
+      app.hidden = false;
+      btn.hidden = false;
+      window.scrollTo(0, 0);
+      burst(W / 2, H * 0.55);
+      var pr = audio.play();
+      if (pr && pr.then) pr.then(function () { setState(true); }, function () {});
+    } else {
+      err.textContent = 'Olmadı ablam, bir daha dene. İpucunu oku.';
+      form.classList.remove('shake');
+      void form.offsetWidth;
+      form.classList.add('shake');
+      pw.select();
+    }
+  });
+})();
+</script>
+
+</body></html>
